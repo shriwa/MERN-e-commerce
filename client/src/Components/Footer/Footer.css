@@ -34,6 +34,7 @@
 .footer-links li:hover {
   color: aqua;
   transition: 500ms;
+  transform: scale(1.05);
 }
 
 .footer-social-icon {

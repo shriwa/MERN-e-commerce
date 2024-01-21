@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ProductDisplay.css";
 import { FaStar } from "react-icons/fa";
+import { ShopContext } from "../../Context/ShopContext";
+import { Link } from "react-router-dom";
 
 const ProductDisplay = (props) => {
   const { product } = props;
+  const { addToCart } = useContext(ShopContext);
 
   return (
     <div className="Product-display">
@@ -16,7 +19,7 @@ const ProductDisplay = (props) => {
         <div className="Product-display-img">
           <img
             className="Product-display-main-img"
-            style={{ height: "450px", width: "356px" }}
+            style={{ height: "450px", width: "356px", borderRadius: "5px" }}
             src={product.image}
             alt=""
           />
@@ -48,16 +51,37 @@ const ProductDisplay = (props) => {
         <div className="product-display-right-size">
           <h1>Select Size</h1>
           <div className="product-display-right-sizes">
-            <div>S</div>
-            <div>M</div>
-            <div>L</div>
-            <div>XL</div>
-            <div>XXL</div>
+            <div>
+              <p>S</p>
+            </div>
+            <div>
+              <p>M</p>
+            </div>
+            <div>
+              <p>L</p>
+            </div>
+            <div>
+              <p>XL</p>
+            </div>
+            <div>
+              <p>XXL</p>
+            </div>
           </div>
         </div>
         <div className="shop-cart">
-          <button className="shop-cart-buy">Buy Now</button>
-          <button className="shop-cart-cart">Add to Cart</button>
+          <Link>
+            <button className="shop-cart-buy">Buy Now</button>
+          </Link>
+          <Link to="/cart">
+            <button
+              onClick={() => {
+                addToCart(product.id);
+              }}
+              className="shop-cart-cart"
+            >
+              Add to Cart
+            </button>
+          </Link>
         </div>
         <p className="product-display-right-categoty">
           <span>Category : </span>Women, T-Shirt, Crop Top

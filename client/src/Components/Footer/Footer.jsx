@@ -5,14 +5,17 @@ import { FaInstagram } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaPinterest } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <div className="footer">
-      <div className="footer-logo">
-        <img src={footer_logo} style={{ height: "50px" }} alt="" />
-        {/* <p>SnapShop</p> */}
-      </div>
+      <Link to="/">
+        <div className="footer-logo">
+          <img src={footer_logo} style={{ height: "50px" }} alt="" />
+          {/* <p>SnapShop</p> */}
+        </div>
+      </Link>
       <ul className="footer-links">
         <li>Company</li>
         <li>Products</li>

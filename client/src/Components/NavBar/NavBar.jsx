@@ -9,10 +9,12 @@ const NavBar = () => {
 
   return (
     <div className="navbar">
-      <div className="nav-logo">
-        <img src={logo} style={{ height: "60px" }} alt="" />
-        {/* <p>SnapShop</p> */}
-      </div>
+      <Link to="/">
+        <div className="nav-logo">
+          <img src={logo} style={{ height: "60px" }} alt="" />
+          {/* <p>SnapShop</p> */}
+        </div>
+      </Link>
       <ul className="nav-menu">
         <li
           onClick={() => {
@@ -61,6 +63,7 @@ const NavBar = () => {
         </Link>
         <Link to="/cart">
           <IoCartOutline
+            className="nav-cart"
             size={45}
             style={{ textDecoration: "none", color: "white" }}
           />

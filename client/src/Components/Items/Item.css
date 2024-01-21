@@ -36,4 +36,5 @@
 .item img {
   max-width: 90%;
   height: auto;
+  border-radius: 10px;
 }
