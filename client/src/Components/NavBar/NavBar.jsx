@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import "./NavBar.css";
 import logo from "../Assets/logo_2.png";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { ShopContext } from "../../Context/ShopContext";
+import { IoIosArrowDropdown } from "react-icons/io";
 
 const NavBar = () => {
   const [menu, setMenu] = useState("shop");
+  const { getTotalCartItems } = useContext(ShopContext);
+  const menuRef = useRef();
+
+  const dropdown_toggle = (e) => {
+    menuRef.current.classList.toggle("nav-menu-visible");
+    e.target.classList.toggle("open");
+  };
 
   return (
     <div className="navbar">
@@ -15,7 +24,14 @@ const NavBar = () => {
           {/* <p>SnapShop</p> */}
         </div>
       </Link>
-      <ul className="nav-menu">
+
+      <IoIosArrowDropdown
+        className="nav-dropdown"
+        onClick={dropdown_toggle}
+        style={{ fontSize: "35px", cursor: "pointer" }}
+      />
+
+      <ul ref={menuRef} className="nav-menu">
         <li
           onClick={() => {
             setMenu("shop");
@@ -59,16 +75,17 @@ const NavBar = () => {
       </ul>
       <div className="nav-login-cart">
         <Link to="/login">
-          <button>Login</button>
+          <button>
+            <p>Login</p>
+          </button>
         </Link>
         <Link to="/cart">
           <IoCartOutline
             className="nav-cart"
-            size={45}
-            style={{ textDecoration: "none", color: "white" }}
+            style={{ fontSize: "45px", textDecoration: "none", color: "white" }}
           />
         </Link>
-        <div className="nav-cart-count">0</div>
+        <div className="nav-cart-count">{getTotalCartItems()}</div>
       </div>
     </div>
   );

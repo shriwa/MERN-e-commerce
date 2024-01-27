@@ -12,7 +12,7 @@ const Hero = () => {
         <div>
           <div className="hero-hand-icon">
             <p>new</p>
-            <FaHandSpock size={50} color="" />
+            {/* <FaHandSpock size={50} color="" /> */}
           </div>
           <p>collection</p>
           <p>for everyone</p>
