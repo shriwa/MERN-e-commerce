@@ -34,6 +34,11 @@ const CartItems = () => {
                 <button className="cart-items-qty">{cartItem[e.id]}</button>
                 <p>${e.new_price * cartItem[e.id]}</p>
                 <IoCloseSharp
+                  style={{
+                    background: "red",
+                    borderRadius: "10px",
+                    color: "white",
+                  }}
                   className="cart-items-remove-icon"
                   onClick={() => {
                     removeFromCart(e.id);

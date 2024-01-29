@@ -19,7 +19,6 @@ const ProductDisplay = (props) => {
         <div className="Product-display-img">
           <img
             className="Product-display-main-img"
-            style={{ height: "450px", width: "356px", borderRadius: "5px" }}
             src={product.image}
             alt=""
           />
