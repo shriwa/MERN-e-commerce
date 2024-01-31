@@ -13,7 +13,8 @@ app.use(cors());
 
 // Database connection with mongodb
 mongoose.connect(
-  "mongodb+srv://shriwarthan:12345@cluster0.8knbjar.mongodb.net/e-commerce"
+  "mongodb+srv://shriwarthan:12345@cluster0.8knbjar.mongodb.net/e-commerce",
+  console.log("Successfully connected to MongoDB")
 );
 
 // API Creation
@@ -35,7 +36,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Creating upload endpoint of images
-app.use("/images", express.static("/upload/images"));
+app.use("/images", express.static("upload/images"));
 
 app.post("/upload", upload.single("product"), (req, res) => {
   res.json({
@@ -130,4 +131,3 @@ app.listen(port, (error) => {
     console.log("Error: " + error);
   }
 });
-a;

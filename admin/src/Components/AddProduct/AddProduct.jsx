@@ -19,7 +19,66 @@ const AddProduct = () => {
   const changeHandler = (e) => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
   };
-  //6.44.20
+
+  const addProduct = async () => {
+    console.log(productDetails);
+    let responseData;
+    let product = productDetails;
+
+    let formData = new FormData();
+    formData.append("product", image);
+
+    try {
+      const uploadResponse = await fetch("http://localhost:4000/upload", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+
+      if (uploadResponse.ok) {
+        responseData = await uploadResponse.json();
+
+        if (responseData.success) {
+          product.image = responseData.image_url;
+          console.log(product);
+
+          const addProductResponse = await fetch(
+            "http://localhost:4000/addproduct",
+            {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(product),
+            }
+          );
+
+          if (addProductResponse.ok) {
+            const addProductData = await addProductResponse.json();
+
+            if (addProductData.success) {
+              alert("Product created successfully");
+            } else {
+              alert("Product creation failed");
+            }
+          } else {
+            alert("Product creation failed");
+          }
+        } else {
+          alert("Image upload failed");
+        }
+      } else {
+        alert("Image upload failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while processing the request");
+    }
+  };
+
   return (
     <div className="add-product">
       <div className="add-product-item-field">
@@ -35,16 +94,33 @@ const AddProduct = () => {
       <div className="add-product-price">
         <div className="add-product-item-field">
           <p>Price</p>
-          <input type="text" name="old_price" placeholder="Type here.." />
+          <input
+            value={productDetails.old_price}
+            onChange={changeHandler}
+            type="text"
+            name="old_price"
+            placeholder="Type here.."
+          />
         </div>
         <div className="add-product-item-field">
           <p>Offer Price</p>
-          <input type="text" name="new_price" placeholder="Type here.." />
+          <input
+            value={productDetails.new_price}
+            onChange={changeHandler}
+            type="text"
+            name="new_price"
+            placeholder="Type here.."
+          />
         </div>
       </div>
       <div className="add-product-item-field">
         <p>Product Category</p>
-        <select name="category" className="add-product-selector">
+        <select
+          value={productDetails.category}
+          onChange={changeHandler}
+          name="category"
+          className="add-product-selector"
+        >
           <option value="women">Women</option>
           <option value="women">Men</option>
           <option value="women">Kid</option>
@@ -66,7 +142,14 @@ const AddProduct = () => {
           hidden
         />
       </div>
-      <button className="add-product-btn">Add</button>
+      <button
+        onClick={() => {
+          addProduct();
+        }}
+        className="add-product-btn"
+      >
+        Add
+      </button>
     </div>
   );
 };
