@@ -6,6 +6,7 @@
   margin: 20px 30px;
   border-radius: 6px;
   background: var(--background-primary);
+  margin-top: 95px;
 }
 .add-product-item-field {
   width: 100%;

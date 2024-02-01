@@ -21,6 +21,17 @@ const AddProduct = () => {
   };
 
   const addProduct = async () => {
+    if (
+      !productDetails.name ||
+      !productDetails.old_price ||
+      !productDetails.new_price ||
+      !productDetails.category ||
+      !image
+    ) {
+      alert("All fields are mandatory. Please fill in all the details.");
+      return;
+    }
+
     console.log(productDetails);
     let responseData;
     let product = productDetails;
@@ -122,8 +133,8 @@ const AddProduct = () => {
           className="add-product-selector"
         >
           <option value="women">Women</option>
-          <option value="women">Men</option>
-          <option value="women">Kid</option>
+          <option value="men">Men</option>
+          <option value="kid">Kid</option>
         </select>
       </div>
       <div className="add-product-item-field">

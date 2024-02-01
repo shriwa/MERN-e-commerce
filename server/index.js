@@ -108,7 +108,7 @@ app.post("/addproduct", async (req, res) => {
 });
 
 // creating api delete product
-app.post("/removeProduct", async (req, res) => {
+app.post("/removeproduct", async (req, res) => {
   await Product.findOneAndDelete({ id: req.body.id });
   console.log("Product deleted");
   res.json({
@@ -123,6 +123,119 @@ app.get("/allproducts", async (req, res) => {
   console.log("All products fetched");
   res.send(products);
 });
+
+// Shcema creating for User model
+const Users = mongoose.model("Users", {
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+    unique: true,
+  },
+  password: {
+    type: String,
+  },
+  cartData: {
+    type: Object,
+  },
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
+});
+
+// Creating endpoint for registration of users
+app.post("/signup", async (req, res) => {
+  try {
+    // Check if the email already exists
+    const existingUser = await Users.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res
+        .status(409)
+        .json({ success: false, error: "Email already exists" });
+    }
+
+    // Initialize a cart for the new user
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+      cart[i] = 0;
+    }
+
+    // Create a new user
+    const user = new Users({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      cartData: cart,
+    });
+
+    // Save the new user to the database
+    await user.save();
+
+    // Generate a JWT token for the new user
+    const data = {
+      user: {
+        id: user.id,
+      },
+    };
+    const token = jwt.sign(data, "secret_ecom");
+
+    // Send the success response with the token
+    res.json({ success: true, token });
+  } catch (error) {
+    // Handle unexpected errors
+    console.error("Error during user registration:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
+});
+
+// Creating endpoint for user login
+app.post("/login", async (req, res) => {
+  try {
+    let user = await Users.findOne({ email: req.body.email });
+    if (user) {
+      const passCompare = req.body.password === user.password;
+      if (passCompare) {
+        const data = {
+          user: {
+            id: user.id,
+          },
+        };
+
+        const token = jwt.sign(data, "secret_ecom");
+        res.json({ success: true, token });
+      } else {
+        res.status(409).json({ success: false, error: "Wrong password" });
+      }
+    } else {
+      res.status(409).json({ success: false, error: "Wrong email" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+});
+
+// Creating endpoint for new collection
+app.get("/newcollections", async (req, res) => {
+  let products = await Product.find({});
+  let newcollections = products.slice(1).slice(-8);
+  console.log("New collection fetched");
+  res.send(newcollections);
+});
+
+// Creating endpoint for propular in women
+app.get("/popularinwomen", async (req, res) => {
+  let products = await Product.find({
+    category: "women",
+  });
+  let popularinwomen = products.slice(0, 4);
+  console.log("Popular in women fetched");
+  res.send(popularinwomen);
+});
+
+// 8.33.07
 
 app.listen(port, (error) => {
   if (!error) {

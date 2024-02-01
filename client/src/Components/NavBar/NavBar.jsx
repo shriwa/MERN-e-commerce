@@ -73,12 +73,26 @@ const NavBar = () => {
           {menu === "kids" ? <hr /> : <></>}
         </li>
       </ul>
+
+      <div className="username"></div>
       <div className="nav-login-cart">
-        <Link to="/login">
-          <button>
-            <p>Login</p>
+        {localStorage.getItem("auth_token") ? (
+          <button
+            onClick={() => {
+              localStorage.removeItem("auth_token");
+              window.location.replace("/");
+            }}
+          >
+            Logout
           </button>
-        </Link>
+        ) : (
+          <Link to="/login">
+            <button>
+              <p>Login</p>
+            </button>
+          </Link>
+        )}
+
         <Link to="/cart">
           <IoCartOutline
             className="nav-cart"

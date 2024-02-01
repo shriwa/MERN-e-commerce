@@ -1,11 +1,14 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 15px 60px;
+  justify-content: space-evenly;
+  gap: 50%;
+  padding: 15px 0px;
   box-shadow: 0 1px 3px -2px #000;
   margin-bottom: 1px;
   background: var(--background-primary);
+  position: fixed;
+  width: 100%;
 }
 
 .nav-logo {
@@ -17,7 +20,7 @@
 
 @media (max-width: 800px) {
   .navbar {
-    padding: 15px 30px;
+    padding: 15px 0px;
   }
   .nav-logo {
     width: 150px;
